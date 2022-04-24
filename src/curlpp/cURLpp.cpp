@@ -2,6 +2,7 @@
 #include "curlpp/Exception.hpp"
 
 #include <cstdlib>
+#include <iostream>
 
 
 namespace 
@@ -41,25 +42,32 @@ curlpp::Cleanup::Cleanup()
 curlpp::Cleanup::~Cleanup()
 {}
 
+curlpp::curlOps::curlOps(std::string &url_, std::string &name_) : url{url_}, name{name_} {
+  curlpp::initialize();
+}
+curlpp::curlOps::curlOps(std::string &url_) : url{url_} {
+  curlpp::initialize();
+}
 
-std::string 
-curlpp::escape(const std::string & url)
+
+std::string curlpp::curlOps::escape()
 {
    std::string buffer;
-   char* p = curl_escape(url.c_str(), (int)url.size());
-   if(!p) {
+   std::string p = curl_escape(url.c_str(), (int)url.size());
+   if(!p.c_str()) {
       throw std::runtime_error("unable to escape the string"); //we got an error
    }
    else {
-     buffer = p;
-     curl_free(p);
+     std::cout << "success";
+     //curl_free((char*)p.c_str());
    }
-   return buffer;
+
+   return p;
 }
 
 
 std::string
-curlpp::unescape(const std::string & url)
+curlpp::curlOps::unescape()
 {
    std::string buffer;
    char* p = curl_unescape(url.c_str(), (int)url.size());
@@ -74,10 +82,8 @@ curlpp::unescape(const std::string & url)
    }
    return buffer;
 }
-
-
 std::string
-curlpp::getenv(const std::string & name)
+curlpp::curlOps::getenv()
 {
    std::string buffer;
    char* p = curl_getenv(name.c_str());
@@ -95,7 +101,7 @@ curlpp::getenv(const std::string & name)
 
 
 std::string
-curlpp::libcurlVersion()
+curlpp::curlOps::libcurlVersion()
 {
   char* p = curl_version();
    if (!p)
@@ -108,7 +114,7 @@ curlpp::libcurlVersion()
 
 
 time_t 
-curlpp::getdate(const std::string & date, time_t * now)
+curlpp::curlOps::getdate(const std::string & date, time_t * now)
 {
   time_t return_value = curl_getdate(date.c_str(), now);
    if(!return_value)
@@ -118,4 +124,3 @@ curlpp::getdate(const std::string & date, time_t * now)
 
    return return_value;
 }
-

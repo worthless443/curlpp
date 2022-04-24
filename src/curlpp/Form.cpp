@@ -192,12 +192,19 @@ std::vector<std::string> curlpp::test::add(const std::string s) {
 		}
 		
 		ii=0;
-		v_main.push_back(std::string{chr[kk]} + std::string{chr[kk]});
+		v_main.push_back(std::string{v[kk]} + std::string{v[kk+1]});
 		kk+=1;
 	}
 	return v_main;
 }
+char curlpp::test::comb(const char *string) {
+	std::vector<std::string> v  = add(string);
+	char *x;
+	for(char *i=x;i<(x+10);i++);
+	return *x;
+	
 
+}
 curlpp::FormParts::Content::Content(const char * name, 
 				    const char * content)
   : FormPart(name)

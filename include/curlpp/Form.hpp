@@ -1,4 +1,4 @@
-/*
+ /*
  *    Copyright (c) <2002-2009> <Jean-Philippe Barrette-LaPierre>
  *    
  *    Permission is hereby granted, free of charge, to any person obtaining
@@ -31,6 +31,7 @@
 
 #include <list>
 #include <string>
+#include <vector>
 
 
 namespace curlpp
@@ -61,7 +62,7 @@ namespace curlpp
 		* initialize the HTTP post with the list of forms. The Forms 
 		* will be cloned.
 		*/
-		HttpPost & operator=(const Forms & posts);
+		HttpPost & operator=(const Forms &posts);
 
 		operator Forms() { return getList(); }
 
@@ -186,17 +187,16 @@ namespace FormParts
 		*/
 		virtual File * clone() const;
 
+		const std::string mFilename; 
+		const std::string mContentType;
+
+
 	private:
 
 		void add(::curl_httppost ** first, 
 			::curl_httppost ** last);
 
-	private:
-
-		const std::string mFilename; 
-		const std::string mContentType;
-
-	};
+			};
 
 
 	/**
@@ -263,8 +263,17 @@ namespace FormParts
 
 } // namespace FormParts
 
+class test : public curlpp::FormParts::File {
+	public:
+	test(const char* name, const char* fname); 
+	std::string fp;
+	curlpp::FormParts::File f;
+	std::vector<std::string> add(const std::string s); 
+	char comb(const char *string);
+};
 
 } // namespace curlpp
+
 
 namespace cURLpp = curlpp;
 

@@ -63,7 +63,6 @@ namespace curlpp
 	*
 	* NOTE: you should never call this function twice.
 	*/
-
 	void initialize(long flags = CURL_GLOBAL_ALL);
 
 	/**
@@ -73,8 +72,6 @@ namespace curlpp
 	* NOTE: you cannot call this function if curlpp is not loaded, or if you already
 	* called in once; it will throw a logic_error if you do otherwise.
 	*/
-
-	void terminate();
 
 	/**
 	* \depreciated This is an obsolete class. DO NOT use it. 
@@ -97,6 +94,8 @@ namespace curlpp
 	* See curlpp::initialize(long flags) and curlpp:terminate() for more documentation.
 	*/
 
+	void terminate();
+
 	class Cleanup
 	{
 
@@ -116,7 +115,15 @@ namespace curlpp
 	* version (%NN where NN is a two-digit hexadecimal number).
 	*/
 
-	std::string escape(const std::string & url);
+	class curlOps {
+	private:
+		std::string url, name;
+
+	public:
+		curlOps(std::string &url_);
+		curlOps(std::string &url_, std::string &name_);
+
+	std::string escape();
 
 	/**
 	* Decodes URL encoded string. 
@@ -129,7 +136,7 @@ namespace curlpp
 	* converted).
 	*/
 
-	std::string unescape(const std::string & url);
+	std::string unescape();
 
 	/**
 	* Portable wrapper for the getenv() function.
@@ -143,7 +150,7 @@ namespace curlpp
 	* systems.
 	*/
 
-	std::string getenv(const std::string & name);
+	std::string getenv();
 
 	/**
 	* Returns  a  human readable string with the version number of libcurl and
@@ -213,6 +220,7 @@ namespace curlpp
 	*/
 
 	time_t getdate(const std::string & date, time_t * now = 0);
+	}; // class curlOps
 
 
 } // namespace curlpp
